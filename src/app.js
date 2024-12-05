@@ -1,5 +1,6 @@
 import express from "express";
 import conectaNaDataBase from "./config/dbConnect.js";
+import livro from "./models/livro.js"
 
 const conexao = await conectaNaDataBase();
 
@@ -59,8 +60,9 @@ app.get("/", (req, res) => {
   res.status(200).send("Curso de NodeJs");
 });
 
-app.get("/livros", (req, res) => {
-  res.status(200).json(livros);
+app.get("/livros", async (req, res) => {
+  const listaLivros = await livro.find({})
+  res.status(200).json(listaLivros);
 });
 
 app.get("/livro/:id", (req, res) => {
