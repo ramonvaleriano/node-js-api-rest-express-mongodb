@@ -1,6 +1,6 @@
 import express from "express";
 import conectaNaDataBase from "./config/dbConnect.js";
-import livro from "./models/livro.js"
+import routes from "./routers/index.js";
 
 const conexao = await conectaNaDataBase();
 
@@ -13,7 +13,8 @@ conexao.once("open", () => {
 });
 
 const app = express();
-app.use(express.json());
+app.routes
+routes(app);
 
 const livros = [
   {
@@ -54,41 +55,6 @@ function modificaLivro(indice, id, dadoLivro) {
 function deleteLivro(indice) {
   livros.splice(indice, 1);
 }
-
-// Requisições get
-app.get("/", (req, res) => {
-  res.status(200).send("Curso de NodeJs");
-});
-
-app.get("/livros", async (req, res) => {
-  const listaLivros = await livro.find({})
-  res.status(200).json(listaLivros);
-});
-
-app.get("/livro/:id", (req, res) => {
-  const livroSolicitado = procuraLivro(req.params.id);
-  res.status(200).json(livroSolicitado);
-});
-
-// Requisições Post
-app.post("/livros", (req, res) => {
-  let bodyReq = req.body;
-  console.log(bodyReq);
-  livros.push(bodyReq);
-  res.status(201).send("Livros adicionado com sucesso.");
-});
-
-// Requisições Put
-app.put("/livro/:id", (req, res) => {
-  const livroSolicitado = procuraLivro(req.params.id);
-  if (livroSolicitado === "Livro não encontrado.") {
-    res.status("404").send(livroSolicitado);
-  } else {
-    const indiceLivro = procuraIndex(req.params.id);
-    modificaLivro(indiceLivro, req.params.id, req.body);
-    res.status(201).send(`Livro ${req.params.id} modificado!`);
-  }
-});
 
 // Requisições Delete
 app.delete("/livro/:id", (req, res) => {
