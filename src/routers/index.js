@@ -1,5 +1,6 @@
 import express from "express";
 import livros from "./livrosrouters.js";
+import autores from "./autoresroutes.js";
 
 const routers = (app) => {
   app.route("/").get((req, res) => {
@@ -7,6 +8,7 @@ const routers = (app) => {
   });
 
   app.use(express.json(), livros);
+  app.use(express.json(), autores);
 };
 
 export default routers;
