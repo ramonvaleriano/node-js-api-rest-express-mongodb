@@ -1,4 +1,5 @@
 import livro from "../models/livro.js";
+import { author } from "../models/autor.js";
 
 class LivroController {
   //Listar todos os livros
@@ -27,7 +28,17 @@ class LivroController {
   // Adicionar um libro no banco de dados
   static async adicionarLivro(req, res) {
     try {
-      const livroAdicionado = livro.create(req.body);
+      const corpoDoLivro = req.body;
+      const idAutor = corpoDoLivro.autor;
+
+      const autorEncontrado = await author.findById({ _id: idAutor });
+
+      const livroCompleto = {
+        ...corpoDoLivro,
+        autor: { ...autorEncontrado._doc },
+      };
+
+      const livroAdicionado = livro.create(livroCompleto);
 
       res.status(201).json({
         messangem: "Livro adicionado com sucesso",
@@ -43,9 +54,19 @@ class LivroController {
     try {
       const idHeader = req.params.id;
 
+      const corpoDoLivro = req.body;
+      const idAutor = corpoDoLivro.autor;
+
+      const autorEncontrado = await author.findById({ _id: idAutor });
+
+      const livroCompleto = {
+        ...corpoDoLivro,
+        autor: { ...autorEncontrado._doc },
+      };
+
       const livroAtualizado = await livro.findOneAndUpdate(
         { _id: idHeader },
-        req.body,
+        livroCompleto,
         { new: true }
       );
 
