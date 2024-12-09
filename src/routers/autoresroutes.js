@@ -8,7 +8,7 @@ const routes = expresse.Router()
 routes.get("/autores", AutorController.autoresListados)
 
 // Autor por id
-routes.get("/autor", AutorController.autorViaId)
+routes.get("/autor/:id", AutorController.autorViaId)
 
 /*Todas as rotas POST*/
 // Criar um autor
@@ -16,7 +16,11 @@ routes.post("/autor", AutorController.autorCriado)
 
 /*Todas as PUT*/
 // Atualizar autor
-routes.put("/autor", AutorController.autorAtualizado)
+routes.put("/autor/:id", AutorController.autorAtualizado)
+
+/*Todas as rotas DELETE*/
+// Deletar um autor
+routes.delete("/autor/:id", AutorController.autorDeletado)
 
 export default routes
 

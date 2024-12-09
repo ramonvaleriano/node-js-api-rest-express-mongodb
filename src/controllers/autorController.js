@@ -53,7 +53,7 @@ class AutorController {
   // Deletar autor.
   static async autorDeletado(req, res) {
     try {
-      const autorDeletado = autores.findOneAndDelete(
+      const autorDeletado = await autores.findOneAndDelete(
         { _id: req.params.id },
         { new: true }
       );
