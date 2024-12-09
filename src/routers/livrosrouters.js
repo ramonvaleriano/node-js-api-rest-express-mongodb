@@ -6,6 +6,9 @@ const routers = express.Router();
 // Coletar todos os livros cadastrados
 routers.get("/livros", LivroController.listarLivros);
 
+// Coletando um livro por um parâmetro correto.
+routers.get("/livro/busca", LivroController.encontarLivroPorParametro)
+
 // Coletar livro por id
 routers.get("/livro/:id", LivroController.livroPorId);
 

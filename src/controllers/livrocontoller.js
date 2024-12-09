@@ -91,6 +91,20 @@ class LivroController {
       res.status(500).json({ mensagem: erro.message });
     }
   }
+
+  // Encontrar livro por parâmetro
+  static async encontarLivroPorParametro(req, res){
+    try{
+      const editora = req.query.editora;
+      const livroEncontrado = await livro.find({editora: editora})
+
+      res.status(200).json(livroEncontrado)
+
+    } catch(erro){
+      res.status(500).json({ mensagem: erro.message });
+    }
+    
+  }
 }
 
 export default LivroController;
